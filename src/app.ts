@@ -48,3 +48,7 @@ export function createApp() {
   app.use(errorMiddleware);
   return app;
 }
+
+const app = createApp();
+
+export default app;

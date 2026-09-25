@@ -1,8 +1,6 @@
-import { createApp } from './app';
+import app from './app';
 import { ensureDatabase } from './config/db';
 import { env } from './config/env';
-
-const app = createApp();
 
 if (!process.env.VERCEL) {
   ensureDatabase()
