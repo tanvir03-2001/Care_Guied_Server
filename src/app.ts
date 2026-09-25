@@ -13,6 +13,10 @@ export function createApp() {
   app.use(cors());
   app.use(express.json());
 
+  app.get('/', (_req, res) => {
+    sendSuccess(res, { name: 'Care Guide API' }, 'Server is running');
+  });
+
   app.get('/api/health', (_req, res) => {
     sendSuccess(res, { status: 'ok' });
   });
