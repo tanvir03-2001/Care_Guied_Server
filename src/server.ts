@@ -1,18 +1,20 @@
 import { createApp } from './app';
-import { connectDb } from './config/db';
+import { ensureDatabase } from './config/db';
 import { env } from './config/env';
-import { ensureSeedAdmin } from './shared/utils/seed-admin';
 
-async function bootstrap() {
-  await connectDb();
-  await ensureSeedAdmin();
-  const app = createApp();
-  app.listen(env.port, () => {
-    console.log(`Server running on http://localhost:${env.port}`);
-  });
+const app = createApp();
+
+if (!process.env.VERCEL) {
+  ensureDatabase()
+    .then(() => {
+      app.listen(env.port, () => {
+        console.log(`Server running on http://localhost:${env.port}`);
+      });
+    })
+    .catch((err) => {
+      console.error('Failed to start server', err);
+      process.exit(1);
+    });
 }
 
-bootstrap().catch((err) => {
-  console.error('Failed to start server', err);
-  process.exit(1);
-});
+export default app;
